@@ -70,7 +70,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: FIXCODE
-          path: ${{ env.FIXCODE }}/../xray.tar.gz
+          path: ../xray.tar.gz
           
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
