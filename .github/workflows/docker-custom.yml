@@ -74,7 +74,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: .github/docker/Dockerfile
+          file: .github/docker/Dockerfile.custom
           platforms: |
             linux/amd64
             linux/arm64/v8
