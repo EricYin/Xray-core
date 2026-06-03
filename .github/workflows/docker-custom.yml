@@ -1,16 +1,14 @@
 name: Build and Push Custom Docker Image
-
 on:
-  release:
-    types:
-      - published
-      - released
-
   workflow_dispatch:
     inputs:
+      release_tag:
+        description: 'Type the exact git tag to deploy (e.g., v1.2.0)'
+        required: true
+        type: string
       tag:
         description: "Docker image tag:"
-        required: true
+        required: false
 jobs: 
   build-and-push:
     runs-on: ubuntu-latest
@@ -56,7 +54,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ inputs.release_tag }}
         
       - name: Fix name
         run: |
