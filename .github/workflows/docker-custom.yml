@@ -64,6 +64,7 @@ jobs:
         run: |         
           echo "Prepare fixed code..."
           tar -zcf ../xray.tar.gz .
+          mv ../xray.tar.gz ./xray.tar.gz
           echo "FIXCODE=$PWD" >> $GITHUB_ENV
 
       - name: Upload Fixed Code
