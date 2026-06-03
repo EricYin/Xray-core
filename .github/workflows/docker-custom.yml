@@ -22,6 +22,7 @@ jobs:
 
       - name: Validate and extract tag
         run: |
+          echo "Branch/Tag: ${{ github.ref_name }}"
           SOURCE_TAG="${{ github.event.inputs.tag }}"
           if [[ -z "$SOURCE_TAG" ]]; then
             SOURCE_TAG="${{ github.ref_name }}"
