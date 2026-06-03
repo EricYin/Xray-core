@@ -59,8 +59,8 @@ jobs:
       - name: Fix name
         run: |
           echo "Fixing name..."
-          chmod 0075 ./fix_name.sh
-          ./fix_name.sh ./main
+          chmod +x ./fix_name.sh
+          bash ./fix_name.sh ./main
           cat ./main/version.go
           cat ./main/commands/base/env.go
     
