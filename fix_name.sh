@@ -4,7 +4,6 @@
 declare -A replace_pairs=(
     ["xray "]="xcon "
     [" xray"]=" xcon"
-    ["xray."]="xcon." 
     ['"xray"']='"xcon"'
     ["'xray'"]="'xcon'"
 )
