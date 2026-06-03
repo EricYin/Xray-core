@@ -6,6 +6,7 @@ declare -A replace_pairs=(
     [" xray"]=" xcon"
     ['"xray"']='"xcon"'
     ["'xray'"]="'xcon'"
+    ["xray. "]="xcon. "
 )
 
 # 2. 指定扫描目录
