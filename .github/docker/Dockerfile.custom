@@ -1,0 +1,65 @@
+# syntax=docker/dockerfile:latest
+FROM --platform=$BUILDPLATFORM golang:latest AS build
+
+# Build xray-core
+WORKDIR /src
+COPY . .
+ARG TARGETOS
+ARG TARGETARCH
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH CGO_ENABLED=0 go build -o xcon -trimpath -buildvcs=false -gcflags="all=-l=4" -ldflags "-s -w -buildid=" ./main
+
+# Download geodat into a staging directory
+ADD https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/geoip.dat /tmp/geodat/geoip.dat
+ADD https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/geosite.dat /tmp/geodat/geosite.dat
+
+RUN mkdir -p /tmp/empty
+
+# Create config files with empty JSON content
+RUN mkdir -p /tmp/usr/local/etc/xcon
+RUN cat <<EOF >/tmp/usr/local/etc/xcon/00_log.json
+{
+  "log": {
+    "error": "/var/log/xcon/error.log",
+    "loglevel": "warning",
+    "access": "none",
+    "dnsLog": false
+  }
+}
+EOF
+RUN echo '{}' >/tmp/usr/local/etc/xcon/01_api.json
+RUN echo '{}' >/tmp/usr/local/etc/xcon/02_dns.json
+RUN echo '{}' >/tmp/usr/local/etc/xcon/03_routing.json
+RUN echo '{}' >/tmp/usr/local/etc/xcon/04_policy.json
+RUN echo '{}' >/tmp/usr/local/etc/xcon/05_inbounds.json
+RUN echo '{}' >/tmp/usr/local/etc/xcon/06_outbounds.json
+RUN echo '{}' >/tmp/usr/local/etc/xcon/07_stats.json
+RUN echo '{}' >/tmp/usr/local/etc/xcon/08_fakedns.json
+RUN echo '{}' >/tmp/usr/local/etc/xcon/09_metrics.json
+RUN echo '{}' >/tmp/usr/local/etc/xcon/10_observatory.json
+RUN echo '{}' >/tmp/usr/local/etc/xcon/11_geodata.json
+RUN echo '{}' >/tmp/usr/local/etc/xcon/99_version.json
+
+# Create log files
+RUN mkdir -p /tmp/var/log/xcon && touch \
+  /tmp/var/log/xcon/access.log \
+  /tmp/var/log/xcon/error.log
+
+# Build finally image
+FROM gcr.io/distroless/static:nonroot
+
+COPY --from=build --chown=0:0 --chmod=755 /src/xcon /usr/local/bin/xcon
+COPY --from=build --chown=65532:65532 --chmod=755 /tmp/empty /usr/local/share/xcon
+COPY --from=build --chown=65532:65532 --chmod=644 /tmp/geodat/*.dat /usr/local/share/xcon/
+COPY --from=build --chown=0:0 --chmod=755 /tmp/empty /usr/local/etc/xcon
+COPY --from=build --chown=0:0 --chmod=644 /tmp/usr/local/etc/xcon/*.json /usr/local/etc/xcon/
+COPY --from=build --chown=0:0 --chmod=755 /tmp/empty /var/log/xcon
+COPY --from=build --chown=65532:65532 --chmod=600 /tmp/var/log/xcon/*.log /var/log/xcon/
+
+VOLUME /usr/local/etc/xcon
+VOLUME /var/log/xcon
+
+ARG TZ=Etc/UTC
+ENV TZ=$TZ
+
+ENTRYPOINT [ "/usr/local/bin/xcon" ]
+CMD [ "-confdir", "/usr/local/etc/xcon/" ]
