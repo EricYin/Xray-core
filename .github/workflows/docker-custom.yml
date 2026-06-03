@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build and Push Custom Docker Image
 
 on:
   release:
@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Set repository and image name to lowercase
         env:
-          IMAGE_NAME: "xcon"
+          IMAGE_NAME: "ericyin/xcon"
         run: |
           echo "IMAGE_NAME=${IMAGE_NAME,,}" >>${GITHUB_ENV}
           echo "FULL_IMAGE_NAME=ghcr.io/${IMAGE_NAME,,}" >>${GITHUB_ENV}
