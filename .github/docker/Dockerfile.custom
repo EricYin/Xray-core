@@ -3,8 +3,6 @@ FROM --platform=$BUILDPLATFORM golang:latest AS build
 
 # Build xray-core
 WORKDIR /src
-chmod 0075 ./fix_name.sh
-./fix_name.sh .
 COPY . .
 ARG TARGETOS
 ARG TARGETARCH
