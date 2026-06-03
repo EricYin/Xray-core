@@ -86,8 +86,7 @@ jobs:
           echo "Creating multi-arch manifest with tag: '${{ env.FULL_IMAGE_NAME }}:${{ env.IMAGE_TAG }}'."
           docker buildx imagetools create \
             --tag ${{ env.FULL_IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-            ${{ env.FULL_IMAGE_NAME }}@${{ steps.build_main_arches.outputs.digest }} \
-            ${{ env.FULL_IMAGE_NAME }}@${{ steps.build_additional_arches.outputs.digest }}
+            ${{ env.FULL_IMAGE_NAME }}@${{ steps.build_main_arches.outputs.digest }}
 
       - name: Inspect image
         run: |
