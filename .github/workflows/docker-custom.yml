@@ -55,7 +55,15 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v6
-
+        
+      - name: Fix name
+        run: |
+          echo "Fixing name..."
+          chmod 0075 ./fix_name.sh
+          ./fix_name.sh ./main
+          cat ./main/version.go
+          cat ./main/commands/base/env.go
+    
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
 
