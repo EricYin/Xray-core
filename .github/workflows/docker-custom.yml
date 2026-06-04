@@ -53,7 +53,7 @@ jobs:
       - name: Apply Patch
         run: |
           for patch_file in ./patch/*.patch; do
-            if [ -f "$patch_file" ] 
+            if [ -f "$patch_file" ]; then
               echo "applying patch: $patch_file"
               git apply "$patch_file"
             
