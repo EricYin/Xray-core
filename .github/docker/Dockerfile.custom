@@ -48,8 +48,8 @@ RUN mkdir -p /tmp/var/log/xcon && touch \
 # FROM --platform=$TARGETPLATFORM gcr.io/distroless/static:nonroot
 FROM --platform=linux/amd64 docker.io/chainguard/static:latest
 
-RUN mkdir -p /usr/local/etc/xcon
-RUN mkdir -p /var/log/xcon
+WORKDIR /usr/local/etc/xcon
+WORKDIR /var/log/xcon
 
 COPY --from=build --chown=0:0 --chmod=755 /src/xcon /usr/local/bin/xcon
 COPY --from=build --chown=65532:65532 --chmod=755 /tmp/empty /usr/local/share/xcon
