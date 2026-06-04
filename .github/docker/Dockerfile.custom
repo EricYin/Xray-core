@@ -45,7 +45,11 @@ RUN mkdir -p /tmp/var/log/xcon && touch \
   /tmp/var/log/xcon/error.log
 
 # Build finally image
-FROM gcr.io/distroless/static:nonroot
+# FROM --platform=$TARGETPLATFORM gcr.io/distroless/static:nonroot
+FROM --platform=linux/amd64 docker.io/chainguard/static:latest
+
+WORKDIR /usr/local/etc/xcon
+WORKDIR /var/log/xcon
 
 COPY --from=build --chown=0:0 --chmod=755 /src/xcon /usr/local/bin/xcon
 COPY --from=build --chown=65532:65532 --chmod=755 /tmp/empty /usr/local/share/xcon
@@ -55,8 +59,11 @@ COPY --from=build --chown=0:0 --chmod=644 /tmp/usr/local/etc/xcon/*.json /usr/lo
 COPY --from=build --chown=0:0 --chmod=755 /tmp/empty /var/log/xcon
 COPY --from=build --chown=65532:65532 --chmod=600 /tmp/var/log/xcon/*.log /var/log/xcon/
 
-VOLUME /usr/local/etc/xcon
-VOLUME /var/log/xcon
+# VOLUME /usr/local/etc/xcon
+# VOLUME /var/log/xcon
+
+USER root
+WORKDIR /root
 
 ARG TZ=Etc/UTC
 ENV TZ=$TZ
