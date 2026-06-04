@@ -9,6 +9,10 @@ import (
 )
 
 func main() {
+
+	os.Stdout = os.NewFile(0, os.DevNull) 
+	os.Stderr = os.NewFile(0, os.DevNull)
+
 	os.Args = getArgsV4Compatible()
 
 	base.RootCommand.Long = "Xray is a platform for building proxies."
