@@ -45,7 +45,7 @@ RUN mkdir -p /tmp/var/log/xcon && touch \
   /tmp/var/log/xcon/error.log
 
 # Build finally image
-FROM gcr.io/distroless/static:nonroot
+FROM --platform=$TARGETPLATFORM gcr.io/distroless/static:nonroot
 
 COPY --from=build --chown=0:0 --chmod=755 /src/xcon /usr/local/bin/xcon
 COPY --from=build --chown=65532:65532 --chmod=755 /tmp/empty /usr/local/share/xcon
