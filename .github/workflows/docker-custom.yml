@@ -71,7 +71,6 @@ jobs:
           file: .github/docker/Dockerfile.custom
           platforms: |
             linux/amd64
-            linux/arm64/v8
           provenance: false
           outputs: type=image,name=${{ env.FULL_IMAGE_NAME }},push-by-digest=true,name-canonical=true,push=true
 
