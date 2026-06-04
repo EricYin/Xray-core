@@ -53,26 +53,6 @@ jobs:
         with:
           ref: ${{ github.ref_name }}
         
-      - name: Fix name
-        run: |
-          echo "Fixing name..."
-          chmod +x ./fix_name.sh
-          bash ./fix_name.sh .
-          
-      - name: Prepare Fixed Code
-        id: organize
-        run: |         
-          echo "Prepare fixed code..."
-          tar -zcf ../xray.tar.gz .
-          mv ../xray.tar.gz ./xray.tar.gz
-          echo "FIXCODE=$PWD" >> $GITHUB_ENV
-
-      - name: Upload Fixed Code
-        uses: actions/upload-artifact@v6
-        with:
-          name: FIXCODE
-          path: ${{ env.FIXCODE }}/xray.tar.gz
-          
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
 
