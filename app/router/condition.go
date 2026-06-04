@@ -307,7 +307,7 @@ func NewProcessNameMatcher(names []string) *ProcessNameMatcher {
 			continue
 		}
 		// replace xray/ with self executable path
-		if name == "xray/" {
+		if name == "xcon/" {
 			xrayPath, err := os.Executable()
 			if err != nil {
 				errors.LogError(context.Background(), "Failed to get xray executable path: ", err)
