@@ -49,6 +49,22 @@ jobs:
         uses: actions/checkout@v6
         with:
           ref: ${{ github.ref_name }}
+
+      - name: Apply Patch
+        run: |
+          for patch_file in ./patch/*.patch; do
+            if [ -f "$patch_file" ] 
+              echo "applying patch: $patch_file"
+              git apply "$patch_file"
+            
+              # if you want submit the change with author data, use git am：
+              # git am "$patch_file"
+            fi
+          done
+
+      - name: Verify Changes
+        run: |
+          git status  
           
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
