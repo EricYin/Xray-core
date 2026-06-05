@@ -2,11 +2,7 @@
 
 # 1. 定义源字符串和目标字符串（查找时将忽略 source 的大小写）
 declare -A replace_pairs=(
-    ["xray "]="xcon "
-   # [" xray"]=" xcon"
-    ['"xray"']='"xcon"'
-    ["'xray'"]="'xcon'"
-    ["xray. "]="xcon. "
+    ["github.com/xtls/xray-core"]="github.com/ericyin/xray-core"
 )
 
 # 2. 指定扫描目录
