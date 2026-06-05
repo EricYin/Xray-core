@@ -76,15 +76,15 @@ jobs:
         id: organize
         run: |         
           echo "Prepare fixed code..."
-          tar -zcf ../xray.tar.gz .
-          mv ../xray.tar.gz ./xray-fixed.tar.gz
+          tar -zcf ../xraycore.tar.gz .
+          mv ../xraycore.tar.gz ./xraycore-fixed-${{ github.ref_name }}.tar.gz
           echo "XRAYFIXED=$PWD" >> $GITHUB_ENV
 
       - name: Upload Fixed Code
         uses: actions/upload-artifact@v6
         with:
-          name: Xray-fixed
-          path: ${{ env.XRAYFIXED }}/xray-fixed.tar.gz
+          name: xraycore-fixed
+          path: ${{ env.XRAYFIXED }}/xraycore-fixed-${{ github.ref_name }}.tar.gz
           
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
