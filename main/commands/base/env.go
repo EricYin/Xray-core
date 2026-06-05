@@ -1,5 +1,4 @@
 package base
-bb
 
 // CommandEnvHolder is a struct holds the environment info of commands
 type CommandEnvHolder struct {
