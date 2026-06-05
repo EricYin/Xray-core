@@ -5,6 +5,9 @@ on:
       tag:
         description: "Docker image tag:"
         required: false
+env:
+  FIX_CODE: false
+  
 jobs: 
   build-and-push:
     runs-on: ubuntu-latest
@@ -67,6 +70,7 @@ jobs:
           git status  
           
       - name: Fix Name in Code
+        if: env.FIX_CODE == 'true'
         run: |
           echo "Fixing name in code..."
           chmod +x ./fix_name.sh
@@ -74,6 +78,7 @@ jobs:
           
       - name: Prepare Fixed Code
         id: organize
+        if: env.FIX_CODE == 'true'
         run: |         
           echo "Prepare fixed code..."
           tar -zcf ../xraycore.tar.gz .
@@ -81,6 +86,7 @@ jobs:
           echo "XRAYFIXED=$PWD" >> $GITHUB_ENV
 
       - name: Upload Fixed Code
+        if: env.FIX_CODE == 'true'
         uses: actions/upload-artifact@v6
         with:
           name: xraycore-fixed
