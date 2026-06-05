@@ -1,4 +1,5 @@
 package base
+bb
 
 // CommandEnvHolder is a struct holds the environment info of commands
 type CommandEnvHolder struct {
@@ -19,8 +20,5 @@ func init() {
 		}
 		CommandEnv.Exec = path.Base(exec)
 	*/
-	aa
-
-	
 	CommandEnv.Exec = "xray"
 }
