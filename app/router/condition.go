@@ -29,7 +29,6 @@ func NewConditionChan() *ConditionChan {
 func (v *ConditionChan) Add(cond Condition) *ConditionChan {
 	*v = append(*v, cond)
 	return v
-	aa
 }
 
 // Apply applies all conditions registered in this chan.
