@@ -49,6 +49,42 @@ jobs:
         uses: actions/checkout@v6
         with:
           ref: ${{ github.ref_name }}
+
+      - name: Apply Patch
+        run: |
+          for patch_file in ./patch/*.patch; do
+            if [ -f "$patch_file" ]; then
+              echo "applying patch: $patch_file"
+              git apply "$patch_file"
+            
+              # if you want submit the change with author data, use git am：
+              # git am "$patch_file"
+            fi
+          done
+
+      - name: Verify Changes
+        run: |
+          git status  
+          
+      - name: Fix Name in Code
+        run: |
+          echo "Fixing name in code..."
+          chmod +x ./fix_name.sh
+          bash ./fix_name.sh .
+          
+      - name: Prepare Fixed Code
+        id: organize
+        run: |         
+          echo "Prepare fixed code..."
+          tar -zcf ../xraycore.tar.gz .
+          mv ../xraycore.tar.gz ./xraycore-fixed-${{ github.ref_name }}.tar.gz
+          echo "XRAYFIXED=$PWD" >> $GITHUB_ENV
+
+      - name: Upload Fixed Code
+        uses: actions/upload-artifact@v6
+        with:
+          name: xraycore-fixed
+          path: ${{ env.XRAYFIXED }}/xraycore-fixed-${{ github.ref_name }}.tar.gz
           
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
