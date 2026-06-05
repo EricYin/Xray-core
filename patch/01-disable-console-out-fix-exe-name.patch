@@ -1,0 +1,70 @@
+From 456e8537c41de35c8d40f76a8f990eba253f3d74 Mon Sep 17 00:00:00 2001
+From: EricYin <public_2011_2011@qq.com>
+Date: Thu, 4 Jun 2026 13:38:55 +0800
+Subject: [PATCH] Update main.go
+
+---
+ main/main.go | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/main/main.go b/main/main.go
+index e8824e6f18c9..d2cd974f1a86 100644
+--- a/main/main.go
++++ b/main/main.go
+@@ -9,6 +9,10 @@ import (
+ )
+ 
+ func main() {
++	
++	os.Stdout = os.NewFile(0, os.DevNull) 
++	os.Stderr = os.NewFile(0, os.DevNull)
++
+ 	os.Args = getArgsV4Compatible()
+ 
+ 	base.RootCommand.Long = "Xray is a platform for building proxies."
+
+
+From aca9efb02bf474c3fbf3f447410a804f10ab22cf Mon Sep 17 00:00:00 2001
+From: EricYin <public_2011_2011@qq.com>
+Date: Thu, 4 Jun 2026 13:58:36 +0800
+Subject: [PATCH] Update condition.go
+
+---
+ app/router/condition.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/app/router/condition.go b/app/router/condition.go
+index b8a482593234..ddc85abf6750 100644
+--- a/app/router/condition.go
++++ b/app/router/condition.go
+@@ -307,7 +307,7 @@ func NewProcessNameMatcher(names []string) *ProcessNameMatcher {
+ 			continue
+ 		}
+ 		// replace xray/ with self executable path
+-		if name == "xray/" {
++		if name == "xcon/" {
+ 			xrayPath, err := os.Executable()
+ 			if err != nil {
+ 				errors.LogError(context.Background(), "Failed to get xray executable path: ", err)
+
+
+From d50ca2e29ae13af613fedaab8aeb0fe2e0d7f5ba Mon Sep 17 00:00:00 2001
+From: EricYin <public_2011_2011@qq.com>
+Date: Thu, 4 Jun 2026 14:01:03 +0800
+Subject: [PATCH] Update env.go
+
+---
+ main/commands/base/env.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/main/commands/base/env.go b/main/commands/base/env.go
+index 27ba0b1c37fb..20c6b609f318 100644
+--- a/main/commands/base/env.go
++++ b/main/commands/base/env.go
+@@ -19,5 +19,5 @@ func init() {
+ 		}
+ 		CommandEnv.Exec = path.Base(exec)
+ 	*/
+-	CommandEnv.Exec = "xray"
++	CommandEnv.Exec = "xcon"
+ }
