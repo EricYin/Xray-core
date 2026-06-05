@@ -19,5 +19,8 @@ func init() {
 		}
 		CommandEnv.Exec = path.Base(exec)
 	*/
+	aa
+
+	
 	CommandEnv.Exec = "xray"
 }
