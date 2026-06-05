@@ -29,6 +29,7 @@ func NewConditionChan() *ConditionChan {
 func (v *ConditionChan) Add(cond Condition) *ConditionChan {
 	*v = append(*v, cond)
 	return v
+	aa
 }
 
 // Apply applies all conditions registered in this chan.
@@ -308,8 +309,6 @@ func NewProcessNameMatcher(names []string) *ProcessNameMatcher {
 		}
 		// replace xray/ with self executable path
 		if name == "xray/" {
-			bbs
-			
 			xrayPath, err := os.Executable()
 			if err != nil {
 				errors.LogError(context.Background(), "Failed to get xray executable path: ", err)
